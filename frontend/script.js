@@ -11,26 +11,30 @@ function App() {
     setResult("");
     setError("");
 
-    if (!lat.trim() || !lng.trim()) {
+    // Validation
+    if (!lat || !lng) {
       setError("Please enter both latitude and longitude.");
       return;
     }
 
     setLoading(true);
+
     try {
       const response = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
-          latitude: Number(lat),
-          longitude: Number(lng)
+          lat: Number(lat),
+          lng: Number(lng)
         })
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Prediction failed. Please try again.");
+        setError(data.error || "Prediction failed.");
         return;
       }
 
@@ -55,7 +59,6 @@ function App() {
           <input
             type="number"
             step="any"
-            placeholder="e.g. 40.2732"
             value={lat}
             onChange={(e) => setLat(e.target.value)}
           />
@@ -66,7 +69,6 @@ function App() {
           <input
             type="number"
             step="any"
-            placeholder="e.g. -75.2481"
             value={lng}
             onChange={(e) => setLng(e.target.value)}
           />
