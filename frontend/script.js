@@ -1,4 +1,4 @@
-const API_URL = "https://resqride-emergency-prediction.onrender.com";
+const API_URL = "https://resqride-emergency-prediction.onrender.com/predict";
 
 function App() {
   const [lat, setLat] = React.useState("");
@@ -22,20 +22,21 @@ function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          lat: Number(lat),
-          lng: Number(lng)
+          latitude: Number(lat),
+          longitude: Number(lng)
         })
       });
 
       const data = await response.json();
+
       if (!response.ok) {
         setError(data.error || "Prediction failed. Please try again.");
         return;
       }
 
       setResult(`Predicted Emergency Type: ${data.predicted_emergency_type}`);
-    } catch (requestError) {
-      setError("Could not connect to backend server. Make sure Flask is running.");
+    } catch (err) {
+      setError("Could not connect to backend server.");
     } finally {
       setLoading(false);
     }
@@ -50,26 +51,24 @@ function App() {
         </p>
 
         <div className="input-group">
-          <label htmlFor="lat">Latitude</label>
+          <label>Latitude</label>
           <input
-            id="lat"
             type="number"
             step="any"
             placeholder="e.g. 40.2732"
             value={lat}
-            onChange={(event) => setLat(event.target.value)}
+            onChange={(e) => setLat(e.target.value)}
           />
         </div>
 
         <div className="input-group">
-          <label htmlFor="lng">Longitude</label>
+          <label>Longitude</label>
           <input
-            id="lng"
             type="number"
             step="any"
             placeholder="e.g. -75.2481"
             value={lng}
-            onChange={(event) => setLng(event.target.value)}
+            onChange={(e) => setLng(e.target.value)}
           />
         </div>
 
