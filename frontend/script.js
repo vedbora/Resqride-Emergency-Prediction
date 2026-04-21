@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000/predict";
+const API_URL = "https://resqride-emergency-prediction.onrender.com";
 
 function App() {
   const [lat, setLat] = React.useState("");
